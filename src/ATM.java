@@ -1,4 +1,4 @@
-public class ATM extends Bank {
+public class ATM extends Manager {
     String location;
 
     void withdraw() {

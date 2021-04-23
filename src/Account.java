@@ -1,4 +1,4 @@
-public class Account extends Bank {
+public class Account extends Manager {
     int number;
     float balance;
 

@@ -1,4 +1,8 @@
-public class Customer extends Bank{
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+public class Customer {
     String name;
     String address;
     String DOB;
@@ -53,4 +57,16 @@ public class Customer extends Bank{
     public void setPin(char pin) {
         this.pin = pin;
     }
+
+    protected boolean authentication = false;
+
+    protected boolean isAuthentication() {
+        return authentication;
+    }
+
+    public void setAuthentication(boolean authentication) {
+        this.authentication = authentication;
+    }
+
+
 }

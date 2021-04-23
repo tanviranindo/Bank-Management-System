@@ -14,11 +14,14 @@ public class Main {
 //            int type = input.nextInt();
 //            System.out.println("=========================================");
 //            if (type == 1) {
-                System.out.println("Admin Login");
-                Bank admin = new Bank();
-                admin.login();
+//                System.out.println("Admin Login");
+        Manager admin = new Manager();
+        admin.login();
 
 //            } else if (type == 2) {
+//        Customer user = new Customer();
+//        user.login();
+//        user.registration();
 //                System.out.println("Customer Login");
 //            } else if (type == 3) {
 //                test = false;
