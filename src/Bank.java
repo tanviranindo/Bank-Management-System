@@ -3,6 +3,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Bank {
+    public String id;
     protected boolean authentication = false;
 
     protected boolean isAuthentication() {
@@ -13,11 +14,11 @@ public class Bank {
         this.authentication = authentication;
     }
 
-    protected boolean login(String address) throws FileNotFoundException {
+    protected void login(String address, String type) throws FileNotFoundException {
         Scanner data = new Scanner(new File(address));
         Scanner input = new Scanner(System.in);
-        System.out.print("Enter Admin_ID: ");
-        String id = input.nextLine();
+        System.out.print("Enter " + type + "_ID: ");
+        id = input.nextLine();
         System.out.print("Enter Password: ");
         String password = input.nextLine();
         while (data.hasNextLine()) {
@@ -34,7 +35,5 @@ public class Bank {
         }
         data.close();
         System.out.println(isAuthentication() ? "Authentication successful." : "Authentication failed!");
-
-        return isAuthentication();
     }
 }

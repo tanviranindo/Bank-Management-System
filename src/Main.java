@@ -2,7 +2,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
 //        boolean test = true;
 //        while (test) {
@@ -16,11 +16,13 @@ public class Main {
 //            if (type == 1) {
 //                System.out.println("Admin Login");
         Manager admin = new Manager();
-        admin.login();
+//        admin.login();
 
 //            } else if (type == 2) {
-//        Customer user = new Customer();
+//        Account user = new Account();
 //        user.login();
+        Customer newAccount = new Customer();
+        newAccount.registration();
 //        user.registration();
 //                System.out.println("Customer Login");
 //            } else if (type == 3) {

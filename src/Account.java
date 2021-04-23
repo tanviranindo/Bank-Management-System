@@ -1,26 +1,33 @@
-public class Account extends Manager {
+import java.io.FileNotFoundException;
+
+public class Account extends Bank {
     int number;
     float balance;
 
-    public int getNumber() {
+    protected void login() throws FileNotFoundException {
+        String address = "C:\\Users\\Tanvir\\IdeaProjects\\Bank Management System\\src\\customer.txt";
+        super.login(address, "User");
+    }
+
+    private int getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    private void setNumber(int number) {
         this.number = number;
     }
 
-    public float getBalance() {
+    private float getBalance() {
         return balance;
     }
 
-    public void setBalance(float balance) {
+    private void setBalance(float balance) {
         this.balance = balance;
     }
 
-    void deposit() {
+    private void deposit() {
     }
 
-    void withdraw() {
+    private void withdraw() {
     }
 }

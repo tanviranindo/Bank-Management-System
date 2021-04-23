@@ -1,22 +1,14 @@
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Customer {
+    String CID;
     String name;
+    String contact;
     String address;
     String DOB;
-    String cardNumber;
-    char pin;
-    boolean verifyPassword;
-
-    public boolean isVerifyPassword() {
-        return verifyPassword;
-    }
-
-    public void setVerifyPassword(boolean verifyPassword) {
-        this.verifyPassword = verifyPassword;
-    }
+    String password;
 
     public String getName() {
         return name;
@@ -24,6 +16,14 @@ public class Customer {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
     }
 
     public String getAddress() {
@@ -42,31 +42,37 @@ public class Customer {
         this.DOB = DOB;
     }
 
-    public String getCardNumber() {
-        return cardNumber;
+    public String getPassword() {
+        return password;
     }
 
-    public void setCardNumber(String cardNumber) {
-        this.cardNumber = cardNumber;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public char getPin() {
-        return pin;
+    protected void registration() {
+        Scanner input = new Scanner(System.in);
+        System.out.print("Enter Name: ");
+        setName(input.nextLine());
+        System.out.print("Enter Contact Number: ");
+        setContact(input.nextLine());
+        System.out.print("Enter Address: ");
+        setAddress(input.nextLine());
+        System.out.print("Enter Date Of Birth (DD/MM/YEAR): ");
+        setDOB(input.nextLine());
+        System.out.print("Set Password: ");
+        setPassword(input.nextLine());
+        dataEntry();
     }
 
-    public void setPin(char pin) {
-        this.pin = pin;
+    private void dataEntry() {
+        try {
+            String saveTo = "C:\\Users\\Tanvir\\IdeaProjects\\Bank Management System\\src\\customer.txt";
+            FileWriter file = new FileWriter(saveTo);
+            file.write(getName() + "," + getContact() + "," + getAddress() + "," + getDOB() + "," + getPassword());
+            file.close();
+        } catch (IOException ignored) {
+            //Ignored
+        }
     }
-
-    protected boolean authentication = false;
-
-    protected boolean isAuthentication() {
-        return authentication;
-    }
-
-    public void setAuthentication(boolean authentication) {
-        this.authentication = authentication;
-    }
-
-
 }

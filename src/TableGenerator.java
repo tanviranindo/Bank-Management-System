@@ -135,32 +135,32 @@ public class TableGenerator {
 
     }
 
-    public void generateTable(Process[] process, int jobCount, int type) {
-        TableGenerator tableGenerator = new TableGenerator();
-
-        List<String> headersList = new ArrayList<>();
-        headersList.add("Process ID");
-        if (type != 3) headersList.add("Arrival Time");
-        headersList.add("Burst Time");
-        if (type == 2) headersList.add("Priority");
-        headersList.add("Completion Time");
-        headersList.add("Waiting Time");
-        headersList.add("Turn Around Time");
-
-        List<List<String>> rowsList = new ArrayList<>();
-
-//        for (int i = 0; i < jobCount; i++) {
-//            List<String> row = new ArrayList<>();
-//            row.add(Integer.toString(process[i].getId()));
-//            if (type != 3) row.add(Integer.toString(process[i].getArrivalTime()));
-//            row.add(Integer.toString(process[i].getBurstTime()));
-//            if (type == 2) row.add(Integer.toString(process[i].getPriority()));
-//            row.add(Integer.toString(process[i].getCompletionTime()));
-//            row.add(Integer.toString(process[i].getWaitingTime()));
-//            row.add(Integer.toString(process[i].getTurnAroundTime()));
-//            rowsList.add(row);
-//        }
-
-//        System.out.print(tableGenerator.generateTable(headersList, rowsList));
-    }
+//    public void generateTable(List<String> header) {
+//        TableGenerator tableGenerator = new TableGenerator();
+//
+//        List<String> headersList = new ArrayList<>();
+//        headersList.add("Process ID");
+//        if (type != 3) headersList.add("Arrival Time");
+//        headersList.add("Burst Time");
+//        if (type == 2) headersList.add("Priority");
+//        headersList.add("Completion Time");
+//        headersList.add("Waiting Time");
+//        headersList.add("Turn Around Time");
+//
+//        List<List<String>> rowsList = new ArrayList<>();
+//
+////        for (int i = 0; i < jobCount; i++) {
+////            List<String> row = new ArrayList<>();
+////            row.add(Integer.toString(process[i].getId()));
+////            if (type != 3) row.add(Integer.toString(process[i].getArrivalTime()));
+////            row.add(Integer.toString(process[i].getBurstTime()));
+////            if (type == 2) row.add(Integer.toString(process[i].getPriority()));
+////            row.add(Integer.toString(process[i].getCompletionTime()));
+////            row.add(Integer.toString(process[i].getWaitingTime()));
+////            row.add(Integer.toString(process[i].getTurnAroundTime()));
+////            rowsList.add(row);
+////        }
+//
+////        System.out.print(tableGenerator.generateTable(headersList, rowsList));
+//    }
 }
