@@ -1,2 +1,2 @@
-anindo 1234
-turzo 3211
+admin,password
+admin,1234
