@@ -1,5 +1,4 @@
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -12,14 +11,16 @@ public class Manager extends Bank {
     String customerData = "C:\\Users\\Tanvir\\IdeaProjects\\Bank Management System\\src\\customer.txt";
     String adminData = "C:\\Users\\Tanvir\\IdeaProjects\\Bank Management System\\src\\admin.txt";
 
-    protected void login() throws FileNotFoundException {
+    private Scanner input, input2;
+
+    protected void login() throws IOException {
         super.login(adminData, "Admin");
         if (isAuthentication()) showOptions();
     }
 
-    private void showOptions() throws FileNotFoundException {
+    private void showOptions() throws IOException {
         System.out.println("==================================");
-        Scanner input = new Scanner(System.in);
+        input = new Scanner(System.in);
         System.out.println("1. Show Account Details");
         System.out.println("2. Show Customer Details");
         System.out.println("3. Edit Customer Details");
@@ -43,7 +44,7 @@ public class Manager extends Bank {
     }
 
     protected void showCustomerDetails() throws FileNotFoundException {
-        Scanner data = new Scanner(new File(customerData));
+        input = new Scanner(new File(customerData));
         String tableName = "CUSTOMER DATA: ";
 
         //Setting attributes
@@ -57,41 +58,19 @@ public class Manager extends Bank {
         attributes.add("Address");
 
         //Setting values
-        settingRowValues(data, tableName, attributes);
+        settingRowValues(input, tableName, attributes);
     }
 
-    protected void editCustomerDetails() throws FileNotFoundException {
-//        try {
-////            File file = new File(customerData);
-//            BufferedReader reader = new BufferedReader(new FileReader(customerData));
-//            String line = "CID", oldtext = "";
-//            Scanner input = new Scanner(System.in);
-//            System.out.print("Provide Customer ID: ");
-//            int c_id = input.nextInt();
-//            while ((line = reader.readLine()) != null) {
-//                oldtext += line + "\r\n";
-//            }
-//            reader.close();
-//            // replace a word in a file
-//            //String newtext = oldtext.replaceAll("drink", "Love");
-//
-//            //To replace a line in a file
-//            String newtext = oldtext.replaceAll("This is test string 20000", "blah blah blah");
-//
-//            FileWriter writer = new FileWriter("file.txt");
-//            writer.write(newtext);
-//            writer.close();
-//        } catch (IOException ioe) {
-//            ioe.printStackTrace();
-//        }
-//    }
-//
-        Scanner data = new Scanner(new File(customerData));
-        Scanner input = new Scanner(System.in);
+    protected void editCustomerDetails() throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(customerData));
+        input = new Scanner(new File(customerData));
+        input2 = new Scanner(System.in);
         System.out.print("Provide Customer ID: ");
-        int c_id = input.nextInt();
-        while (data.hasNextLine()) {
-            String[] c_data = data.nextLine().split(",");
+        int c_id = input2.nextInt();
+        StringBuilder newText = new StringBuilder();
+        while (input.hasNextLine()) {
+            String oldData = input.nextLine();
+            String[] c_data = oldData.split(",");
             if (Integer.parseInt(c_data[0]) == c_id) {
                 System.out.println("1. Name");
                 System.out.println("2. E-Mail");
@@ -100,22 +79,45 @@ public class Manager extends Bank {
                 System.out.println("5. Contact");
                 System.out.println("6. Address");
                 System.out.print("Update: ");
-                int search = input.nextInt();
-
-                StringBuilder oldText = new StringBuilder(c_data[search]);
+                int search = input2.nextInt();
+                input2 = new Scanner(System.in);
                 System.out.print("Set Value: ");
-                String newText = input.nextLine();
-                oldText.append(data.nextLine());
+                String value = input2.nextLine();
 
-                System.out.println(oldText);
-                System.out.println(newText);
-                data.close();
+                writer.write(c_id + ",");
+                for (int i = 1; i < c_data.length; i++) {
+                    if (i == search) {
+                        writer.write(value);
+                    } else {
+                        writer.write(c_data[i]);
+                    }
+                    if (i != c_data.length - 1) writer.write(",");
+                }
+            } else {
+                writer.write(oldData);
             }
+            writer.write("\r\n");
         }
+        input.close();
+        writer.close();
     }
 
+//    public String replace(String[] arr, int index, String newValue) {
+//        StringBuilder hello = new StringBuilder("1,");
+//        for (int i = 1; i < arr.length; i++) {
+//            if (i == index) {
+//                hello.append(newValue);
+//            } else {
+//                hello.append(arr[i]);
+//            }
+//            if (i != arr.length - 1) hello.append(",");
+//        }
+//        System.out.println(hello.toString());
+//        return hello.toString();
+//    }
+
     protected void showAccountDetails() throws FileNotFoundException {
-        Scanner data = new Scanner(new File(accountData));
+        input = new Scanner(new File(accountData));
         String tableName = "ACCOUNT DATA: ";
         //Setting attributes
         List<String> attributes = new ArrayList<>();
@@ -126,15 +128,15 @@ public class Manager extends Bank {
         attributes.add("Balance");
 
         //Setting values
-        settingRowValues(data, tableName, attributes);
+        settingRowValues(input, tableName, attributes);
     }
 
-    private void settingRowValues(Scanner data, String tableName, List<String> attributes) {
+    private void settingRowValues(Scanner input, String tableName, List<String> attributes) {
         List<List<String>> rowsList = new ArrayList<>();
-        while (data.hasNextLine()) {
-            rowsList.add(Arrays.asList(data.nextLine().split(",")));
+        while (input.hasNextLine()) {
+            rowsList.add(Arrays.asList(input.nextLine().split(",")));
         }
-        data.close();
+        input.close();
         TableGenerator table = new TableGenerator();
         System.out.print(table.generateTable(attributes, tableName, rowsList));
     }
