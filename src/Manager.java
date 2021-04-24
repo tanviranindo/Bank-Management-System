@@ -62,59 +62,82 @@ public class Manager extends Bank {
     }
 
     protected void editCustomerDetails() throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter(customerData));
-        input = new Scanner(new File(customerData));
-        input2 = new Scanner(System.in);
-        System.out.print("Provide Customer ID: ");
-        int c_id = input2.nextInt();
-        StringBuilder newText = new StringBuilder();
-        while (input.hasNextLine()) {
-            String oldData = input.nextLine();
-            String[] c_data = oldData.split(",");
-            if (Integer.parseInt(c_data[0]) == c_id) {
-                System.out.println("1. Name");
-                System.out.println("2. E-Mail");
-                System.out.println("3. Password");
-                System.out.println("4. DOB");
-                System.out.println("5. Contact");
-                System.out.println("6. Address");
-                System.out.print("Update: ");
-                int search = input2.nextInt();
-                input2 = new Scanner(System.in);
-                System.out.print("Set Value: ");
-                String value = input2.nextLine();
+        File fileToBeModified = new File(customerData);
+        StringBuilder oldContent = new StringBuilder();
+        BufferedReader reader = null;
+        FileWriter writer = null;
 
-                writer.write(c_id + ",");
-                for (int i = 1; i < c_data.length; i++) {
-                    if (i == search) {
-                        writer.write(value);
-                    } else {
-                        writer.write(c_data[i]);
-                    }
-                    if (i != c_data.length - 1) writer.write(",");
-                }
-            } else {
-                writer.write(oldData);
+        try {
+            reader = new BufferedReader(new FileReader(fileToBeModified));
+            //Reading all the lines of input text file into oldContent
+            String line = reader.readLine();
+            while (line != null) {
+                oldContent.append(line).append(System.lineSeparator());
+                line = reader.readLine();
             }
-            writer.write("\r\n");
-        }
-        input.close();
-        writer.close();
-    }
 
-//    public String replace(String[] arr, int index, String newValue) {
-//        StringBuilder hello = new StringBuilder("1,");
-//        for (int i = 1; i < arr.length; i++) {
-//            if (i == index) {
-//                hello.append(newValue);
+            //Replacing oldString with newString in the oldContent
+            String newContent = oldContent.toString().replaceAll("16", "32");
+            //Rewriting the input text file with newContent
+            writer = new FileWriter(fileToBeModified);
+            writer.write(newContent);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                //Closing the resources
+                reader.close();
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+//        File modified = new File(customerData);
+//        FileWriter writer = new FileWriter(customerData);
+//        input = new Scanner(customerData);
+//        input2 = new Scanner(System.in);
+//        System.out.print("Provide Customer ID: ");
+//        int c_id = input2.nextInt();
+//
+//        StringBuilder newText = new StringBuilder();
+//
+//        while (input.hasNextLine()) {
+//            String oldData = input.nextLine();
+//            String[] c_data = oldData.split(",");
+//            System.out.println(c_data[0]);
+//            if (Integer.parseInt(c_data[0]) == c_id) {
+//                System.out.println("1. Name");
+//                System.out.println("2. E-Mail");
+//                System.out.println("3. Password");
+//                System.out.println("4. DOB");
+//                System.out.println("5. Contact");
+//                System.out.println("6. Address");
+//                System.out.print("Update: ");
+//                int search = input2.nextInt();
+//                input2 = new Scanner(System.in);
+//                System.out.print("Set Value: ");
+//                String value = input2.nextLine();
+//
+//                newText.append(c_id).append(",");
+//                for (int i = 1; i < c_data.length; i++) {
+//                    if (i == search) {
+//                        newText.append(value);
+//                    } else {
+//                        newText.append(c_data[i]);
+//                    }
+//                    if (i != c_data.length - 1) newText.append(",");
+//                }
 //            } else {
-//                hello.append(arr[i]);
+//                newText.append(oldData);
 //            }
-//            if (i != arr.length - 1) hello.append(",");
+//            newText.append("\r\n");
 //        }
-//        System.out.println(hello.toString());
-//        return hello.toString();
-//    }
+//        input.close();
+//        writer = new FileWriter(modified);
+//        writer.write(String.valueOf(newText));
+//        writer.close();
+
 
     protected void showAccountDetails() throws FileNotFoundException {
         input = new Scanner(new File(accountData));
