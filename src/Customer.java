@@ -9,20 +9,25 @@ public class Customer {
     String name;
     String email;
     String password;
+    String startBalance;
     String DOB;
     String contact;
     String address;
+    String customerData = "C:\\Users\\Tanvir\\IdeaProjects\\Bank Management System\\src\\customer.txt";
 
-    public void setID() throws FileNotFoundException {
-        String customerData = "C:\\Users\\Tanvir\\IdeaProjects\\Bank Management System\\src\\customer.txt";
-        Scanner data = new Scanner(new File(customerData));
-        int temp = 0;
-        while (data.hasNextLine()) {
-            String[] arr = data.nextLine().split(",");
-            temp = Integer.parseInt(arr[0]);
+    public void setID() {
+        try {
+            Scanner data = new Scanner(new File(customerData));
+            int temp = 0;
+            while (data.hasNextLine()) {
+                String[] arr = data.nextLine().split(",");
+                temp = Integer.parseInt(arr[0]);
+            }
+            this.CID = temp + 1;
+            data.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
-        this.CID = temp + 1;
-        data.close();
     }
 
     public int getCID() {
@@ -53,6 +58,14 @@ public class Customer {
         this.password = password;
     }
 
+    public void setStartBalance(String startBalance) {
+        this.startBalance = startBalance;
+    }
+
+    public String getStartBalance() {
+        return startBalance;
+    }
+
     public String getDOB() {
         return DOB;
     }
@@ -77,29 +90,30 @@ public class Customer {
         this.address = address;
     }
 
-    protected void registration() throws FileNotFoundException {
+    protected void registration() {
         Scanner input = new Scanner(System.in);
         setID();
         System.out.print("Enter Name: ");
-        setName(input.nextLine());
+        setName(input.nextLine().toUpperCase());
         System.out.print("Enter E-Mail: ");
-        setEmail(input.nextLine());
+        setEmail(input.nextLine().toUpperCase());
         System.out.print("Set Password: ");
         setPassword(input.nextLine());
+        System.out.print("Starting Balance: ");
+        setStartBalance(input.nextLine());
         System.out.print("Enter Date Of Birth (DD/MM/YEAR): ");
         setDOB(input.nextLine());
         System.out.print("Enter Contact Number: ");
         setContact(input.nextLine());
         System.out.print("Enter Address: ");
-        setAddress(input.nextLine());
+        setAddress(input.nextLine().toUpperCase());
         dataEntry();
     }
 
     private void dataEntry() {
         try {
-            String saveTo = "C:\\Users\\Tanvir\\IdeaProjects\\Bank Management System\\src\\customer.txt";
-            FileWriter file = new FileWriter(saveTo, true);
-            file.write(getCID() + "," + getName() + "," + getEmail() + "," + getPassword() + "," + getDOB() + "," + getContact() + "," + getAddress() + "\n");
+            FileWriter file = new FileWriter(customerData, true);
+            file.write(getCID() + "," + getName() + "," + getEmail() + "," + getPassword() + "," + getStartBalance() + "," + getDOB() + "," + getContact() + "," + getAddress() + "\n");
             file.close();
         } catch (IOException ignored) {
             //Ignored

@@ -5,33 +5,34 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Manager extends Bank {
-    List<List<String>> account;
-    List<List<String>> customer;
     String accountData = "C:\\Users\\Tanvir\\IdeaProjects\\Bank Management System\\src\\account.txt";
     String customerData = "C:\\Users\\Tanvir\\IdeaProjects\\Bank Management System\\src\\customer.txt";
     String adminData = "C:\\Users\\Tanvir\\IdeaProjects\\Bank Management System\\src\\admin.txt";
-
-    private Scanner input, input2;
 
     protected void login() throws IOException {
         super.login(adminData, "Admin");
         if (isAuthentication()) showOptions();
     }
 
-    private void showOptions() throws IOException {
+    private void showOptions() {
+        Scanner input = new Scanner(System.in);
         System.out.println("==================================");
-        input = new Scanner(System.in);
         System.out.println("1. Show Account Details");
-        System.out.println("2. Show Customer Details");
-        System.out.println("3. Edit Customer Details");
-        System.out.println("4. Sign Out");
+        System.out.println("2. Edit Account Details");
+        System.out.println("3. Verify Account");
+        System.out.println("4. Show Customer Details");
+        System.out.println("5. Edit Customer Details");
+        System.out.println("6. Sign Out");
         System.out.print("Select to Operate: ");
         int option = input.nextInt();
-        if (option == 2) {
-            showCustomerDetails();
-        } else if (option == 3) {
-            editCustomerDetails();
+        if (option == 3) {
+            verifyCustomer();
         } else if (option == 4) {
+            showCustomerDetails();
+        } else if (option == 5) {
+            showCustomerDetails();
+            editCustomerDetails();
+        } else if (option == 6) {
             super.setAuthentication(false);
             System.out.println("==================================");
             System.out.println("Logged Out");
@@ -39,27 +40,33 @@ public class Manager extends Bank {
         }
     }
 
-    protected void verification() {
+    protected void verifyCustomer() {
         //CODE
-        System.out.println("Write : name + account_number + balance");
+        System.out.println("Write : c_id + name + account_number + balance");
+        showCustomerDetails();
+        Account verify = new Account(1);
     }
 
-    protected void showCustomerDetails() throws FileNotFoundException {
-        input = new Scanner(new File(customerData));
-        String tableName = "CUSTOMER DATA: ";
-
+    protected void showCustomerDetails() {
         //Setting attributes
         List<String> attributes = new ArrayList<>();
         attributes.add("C_ID");
         attributes.add("Name");
         attributes.add("E-Mail");
         attributes.add("Password");
+        attributes.add("Balance");
         attributes.add("DOB");
         attributes.add("Contact");
         attributes.add("Address");
 
         //Setting values
-        settingRowValues(input, tableName, attributes);
+        try {
+            Scanner input = new Scanner(new File(customerData));
+            String tableName = "CUSTOMER DATA: ";
+            settingRowValues(input, tableName, attributes);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     protected void editCustomerDetails() {
@@ -78,14 +85,16 @@ public class Manager extends Bank {
             String[] eachLine = oldContent.toString().split("\r\n");
             StringBuilder newContent = new StringBuilder();
 
+            Scanner input = new Scanner(System.in);
             System.out.print("Provide Customer ID: ");
             int c_id = input.nextInt();
             System.out.println("1. Name");
             System.out.println("2. E-Mail");
             System.out.println("3. Password");
-            System.out.println("4. DOB");
-            System.out.println("5. Contact");
-            System.out.println("6. Address");
+            System.out.println("4. Balance");
+            System.out.println("5. DOB");
+            System.out.println("6. Contact");
+            System.out.println("7. Address");
             System.out.print("Update: ");
             int change = input.nextInt();
             System.out.print("Set Value: ");
@@ -98,7 +107,7 @@ public class Manager extends Bank {
                     if (Integer.parseInt(eachValue[0]) == c_id) {
                         eachValue[change] = value;
                     }
-                    newContent.append(eachValue[j]);
+                    newContent.append(j != 3 ? eachValue[j].toUpperCase() : eachValue[j]);
                     if (j != eachValue.length - 1) newContent.append(",");
                 }
                 newContent.append("\r\n");
@@ -113,19 +122,22 @@ public class Manager extends Bank {
         }
     }
 
-    protected void showAccountDetails() throws FileNotFoundException {
-        input = new Scanner(new File(accountData));
-        String tableName = "ACCOUNT DATA: ";
+    protected void showAccountDetails() {
         //Setting attributes
         List<String> attributes = new ArrayList<>();
         attributes.add("C_ID");
+        attributes.add("Name");
         attributes.add("Account Number");
-        attributes.add("Account Type");
-        attributes.add("Card Number");
         attributes.add("Balance");
 
         //Setting values
-        settingRowValues(input, tableName, attributes);
+        try {
+            Scanner input = new Scanner(new File(accountData));
+            String tableName = "ACCOUNT DATA: ";
+            settingRowValues(input, tableName, attributes);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     private void settingRowValues(Scanner input, String tableName, List<String> attributes) {
