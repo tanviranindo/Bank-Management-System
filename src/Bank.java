@@ -35,6 +35,7 @@ public class Bank {
             if (account[0].equals(id) && account[1].equals(password)) setAuthentication(true);
         }
         data.close();
-        System.out.println(isAuthentication() ? "Authentication successful." : "Authentication failed!");
+        System.out.println("==================================");
+        System.out.println(isAuthentication() ? "Authentication Successful" : "Authentication Failed");
     }
 }

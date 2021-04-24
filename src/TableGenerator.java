@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,7 +6,7 @@ public class TableGenerator {
 
     private final int PADDING_SIZE = 2;
 
-    public String generateTable(List<String> headersList, List<List<String>> rowsList, int... overRiddenHeaderHeight) {
+    public String generateTable(List<String> headersList, String tableName, List<List<String>> rowsList, int... overRiddenHeaderHeight) {
         StringBuilder stringBuilder = new StringBuilder();
 
         int rowHeight = overRiddenHeaderHeight.length > 0 ? overRiddenHeaderHeight[0] : 1;
@@ -16,6 +15,7 @@ public class TableGenerator {
 
         String NEW_LINE = "\n";
         stringBuilder.append(NEW_LINE);
+        stringBuilder.append(tableName);
         stringBuilder.append(NEW_LINE);
         createRowLine(stringBuilder, headersList.size(), columnMaxWidthMapping);
         stringBuilder.append(NEW_LINE);

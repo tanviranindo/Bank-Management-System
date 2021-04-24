@@ -21,9 +21,8 @@ public class Main {
 //            } else if (type == 2) {
 //        Account user = new Account();
 //        user.login();
-        Customer newAccount = new Customer();
-        newAccount.registration();
-        admin.showCustomerDetails();
+//        Customer newAccount = new Customer();
+//        newAccount.registration();
 //        user.registration();
 //                System.out.println("Customer Login");
 //            } else if (type == 3) {
