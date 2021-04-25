@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Scanner;
 
 public class Account extends Manager {
     String customerID;
@@ -14,12 +13,7 @@ public class Account extends Manager {
     String password;
     float balance;
 
-    String accountData = "C:\\Users\\Tanvir\\IdeaProjects\\Bank Management System\\src\\account.txt";
-    String customerData = "C:\\Users\\Tanvir\\IdeaProjects\\Bank Management System\\src\\customer.txt";
-
-    public String getCustomerID() {
-        return customerID;
-    }
+    public String getCustomerID() { return customerID; }
 
     private void setCustomerID(String customerID) {
         this.customerID = customerID;
@@ -60,7 +54,7 @@ public class Account extends Manager {
     protected void init(String id) {
         setCustomerID(id);
         try {
-            String[] eachLine = readFile(accountData);
+            String[] eachLine = super.readFile(super.accountData);
             for (String i : eachLine) {
                 String[] eachValue = i.split(",");
                 if (eachValue[0].equals(id)) {
@@ -110,8 +104,29 @@ public class Account extends Manager {
         System.out.print(table.generateTable(attributes, tableName, rowList));
     }
 
+    protected void updateData() {
+        File fileToBeModified = new File(super.accountData);
+        try {
+            String[] eachLine = super.readFile(super.accountData);
+            StringBuilder newContent = new StringBuilder();
+            for (String i : eachLine) {
+                String[] eachValue = i.split(",");
+                if (eachValue[0].equals(customerID)) {
+                    newContent.append(eachValue[0]).append(",").append(eachValue[1]).append(",").append(eachValue[2]).append(",").append(eachValue[3]).append(",").append(getBalance());
+                } else newContent.append(i);
+                newContent.append("\r\n");
+            }
+
+            FileWriter file = new FileWriter(fileToBeModified);
+            file.write(newContent.toString());
+            file.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     protected void createAccount(String c_id) throws FileNotFoundException {
-        String[] eachLine = readFile(customerData);
+        String[] eachLine = super.readFile(super.customerData);
         for (String i : eachLine) {
             String[] eachValue = i.split(",");
             if (eachValue[0].equals(c_id)) {
@@ -124,7 +139,7 @@ public class Account extends Manager {
         }
 
         //Previous existence
-        eachLine = readFile(accountData);
+        eachLine = super.readFile(super.accountData);
         boolean flag = true;
         try {
             for (String i : eachLine) {
@@ -145,7 +160,7 @@ public class Account extends Manager {
 
     private void dataEntry() {
         try {
-            FileWriter file = new FileWriter(accountData, true);
+            FileWriter file = new FileWriter(super.accountData, true);
             file.write(getCustomerID() + "," + getPassword() + "," + getName() + "," + getAccount() + "," + getBalance() + "\n");
             file.close();
             System.out.println("Status: " + getName() + "(CID-" + getCustomerID() + ") has been verified.");
@@ -168,15 +183,5 @@ public class Account extends Manager {
             accountNumber.append(card.charAt(i));
         }
         setAccount(accountNumber.toString());
-    }
-
-    private String[] readFile(String fileName) throws FileNotFoundException {
-        Scanner input = new Scanner(new File(fileName));
-        StringBuilder list = new StringBuilder();
-        while (input.hasNextLine()) {
-            list.append(input.nextLine()).append(System.lineSeparator());
-        }
-        input.close();
-        return list.toString().split("\r\n");
     }
 }

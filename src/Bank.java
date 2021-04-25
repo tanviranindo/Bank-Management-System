@@ -36,7 +36,7 @@ public class Bank {
 //            }
                 if (account[0].equals(id) && account[1].equals(password)) {
                     setAuthentication(true);
-                    this.name = account[2];
+                    if (type.equals("USER")) this.name = account[2];
                 }
             }
             data.close();

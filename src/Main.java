@@ -14,10 +14,10 @@ public class Main {
 //            System.out.println("=========================================");
 //            if (type == 1) {
 //                System.out.println("Admin Login");
-//        Manager admin = new Manager();
-//        admin.login();
-        User active = new User();
-        active.login();
+        Manager admin = new Manager();
+        admin.login();
+//        User active = new User();
+//        active.login();
 
 //            } else if (type == 2) {
 //        Account user = new Account();

@@ -16,7 +16,6 @@ public class Manager extends Bank {
 
     private void showOptions() {
         Scanner input = new Scanner(System.in);
-        System.out.println("==================================");
         System.out.println("1. Verify Customer");
         System.out.println("2. Show Accounts Details");
         System.out.println("3. Delete Account Details");
@@ -31,14 +30,16 @@ public class Manager extends Bank {
         } else if (option == 2) {
             showAccountDetails();
         } else if (option == 3) {
-//            deleteAccount();
+            showAccountDetails();
+            deleteAccount();
         } else if (option == 4) {
             showCustomerDetails();
         } else if (option == 5) {
             showCustomerDetails();
             updateCustomerDetails();
         } else if (option == 6) {
-//            deleteCustomer();
+            showCustomerDetails();
+            deleteCustomer();
         } else if (option == 7) {
             super.setAuthentication(false);
             System.out.println("==================================");
@@ -105,23 +106,12 @@ public class Manager extends Bank {
 
     protected void updateCustomerDetails() {
         File fileToBeModified = new File(customerData);
-        StringBuilder oldContent = new StringBuilder();
-        BufferedReader reader;
-
         try {
-            reader = new BufferedReader(new FileReader(fileToBeModified));
-            String line = reader.readLine();
-            while (line != null) {
-                oldContent.append(line).append(System.lineSeparator());
-                line = reader.readLine();
-            }
-
-            String[] eachLine = oldContent.toString().split("\r\n");
+            String[] eachLine = readFile(customerData);
             StringBuilder newContent = new StringBuilder();
-
             Scanner input = new Scanner(System.in);
             System.out.print("Provide Customer ID: ");
-            int c_id = input.nextInt();
+            String c_id = input.nextLine();
             System.out.println("1. Name");
             System.out.println("2. E-Mail");
             System.out.println("3. Password");
@@ -138,7 +128,7 @@ public class Manager extends Bank {
             for (String i : eachLine) {
                 String[] eachValue = i.split(",");
                 for (int j = 0; j < eachValue.length; j++) {
-                    if (Integer.parseInt(eachValue[0]) == c_id) {
+                    if (eachValue[0].equals(c_id)) {
                         eachValue[change] = value;
                     }
                     newContent.append(j != 3 ? eachValue[j].toUpperCase() : eachValue[j]);
@@ -149,14 +139,53 @@ public class Manager extends Bank {
 
             FileWriter file = new FileWriter(fileToBeModified);
             file.write(newContent.toString());
-            reader.close();
             file.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    //Delete a customer
+    protected void deleteAccount() {
+        deleteRow(accountData);
+    }
+
+    protected void deleteCustomer() {
+        deleteRow(customerData);
+    }
+
+    private void deleteRow(String accountData) {
+        File fileToBeModified = new File(accountData);
+        try {
+            String[] eachLine = readFile(accountData);
+            StringBuilder newContent = new StringBuilder();
+
+            Scanner input = new Scanner(System.in);
+            System.out.print("Provide Customer ID: ");
+            String c_id = input.nextLine();
+
+            for (String i : eachLine) {
+                String[] eachValue = i.split(",");
+                if (!eachValue[0].equals(c_id)) newContent.append(i).append("\r\n");
+            }
+
+            FileWriter file = new FileWriter(fileToBeModified);
+            file.write(newContent.toString());
+            file.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    protected String[] readFile(String fileName) throws FileNotFoundException {
+        Scanner input = new Scanner(new File(fileName));
+        StringBuilder list = new StringBuilder();
+        while (input.hasNextLine()) {
+            list.append(input.nextLine()).append(System.lineSeparator());
+        }
+        input.close();
+        return list.toString().split("\r\n");
+    }
 
     private void settingRowValues(Scanner input, String tableName, List<String> attributes) {
         List<List<String>> rowsList = new ArrayList<>();

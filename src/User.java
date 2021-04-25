@@ -53,6 +53,7 @@ public class User extends Account {
 //            updateCustomerDetails();
             } else if (option == 6) {
                 super.setAuthentication(false);
+                super.updateData();
                 System.out.println("==================================");
                 System.out.println("Logged Out");
                 System.out.println("==================================");
