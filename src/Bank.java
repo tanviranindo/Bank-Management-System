@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class Bank {
     public String id;
+    public String name;
     protected boolean authentication = false;
 
     protected boolean isAuthentication() {
@@ -33,11 +34,22 @@ public class Bank {
 //                    setAuthentication(true);
 //                }
 //            }
-                if (account[0].equals(id) && account[1].equals(password)) setAuthentication(true);
+                if (account[0].equals(id) && account[1].equals(password)) {
+                    setAuthentication(true);
+                    this.name = account[2];
+                }
             }
             data.close();
+
             System.out.println("==================================");
-            System.out.println(isAuthentication() ? "Authentication Successful" : "Authentication Failed");
+            if (isAuthentication()) {
+                if (type.equals("USER")) {
+                    System.out.println("HELLO " + this.name + "!");
+                } else System.out.println("Authentication Successful");
+            } else {
+                System.out.println("Authentication Failed");
+            }
+            System.out.println("==================================");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

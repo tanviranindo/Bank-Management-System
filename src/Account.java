@@ -2,11 +2,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Account extends Manager{
-    int customerID;
+public class Account extends Manager {
+    String customerID;
     String name;
     String account;
     String password;
@@ -15,11 +17,11 @@ public class Account extends Manager{
     String accountData = "C:\\Users\\Tanvir\\IdeaProjects\\Bank Management System\\src\\account.txt";
     String customerData = "C:\\Users\\Tanvir\\IdeaProjects\\Bank Management System\\src\\customer.txt";
 
-    public int getCustomerID() {
+    public String getCustomerID() {
         return customerID;
     }
 
-    private void setCustomerID(int customerID) {
+    private void setCustomerID(String customerID) {
         this.customerID = customerID;
     }
 
@@ -55,18 +57,65 @@ public class Account extends Manager{
         this.balance = balance;
     }
 
-    protected void deposit() {
+    protected void init(String id) {
+        setCustomerID(id);
+        try {
+            String[] eachLine = readFile(accountData);
+            for (String i : eachLine) {
+                String[] eachValue = i.split(",");
+                if (eachValue[0].equals(id)) {
+                    setCustomerID(id);
+                    setName(eachValue[2]);
+                    setAccount(eachValue[3]);
+                    setBalance(Float.parseFloat(eachValue[4]));
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
-    protected void withdraw() {
+    protected void withdraw(float amount) {
+        if ((balance - amount) >= 0) {
+            balance -= amount;
+            System.out.println("\u09F3 " + amount + "/- has been withdrawn. Current Balance is \u09F3 " + getBalance() + "/-");
+        } else System.out.println("Insufficient Balance!");
     }
 
-    protected void createAccount(int c_id) throws FileNotFoundException {
+    protected void deposit(float amount) {
+        if (amount >= 0) {
+            balance += amount;
+            System.out.println("\u09F3 " + amount + "/- has been deposited. Current Balance is \u09F3 " + getBalance() + "/-");
+        }
+    }
+
+    protected void viewDetails() {
+        //Setting attributes
+        List<String> attributes = new ArrayList<>();
+        attributes.add("C_ID");
+        attributes.add("Name");
+        attributes.add("Account Number");
+        attributes.add("Balance");
+
+        List<String> values = new ArrayList<>();
+        values.add(getCustomerID());
+        values.add(getName());
+        values.add(getAccount());
+        values.add(String.valueOf(getBalance()));
+        List<List<String>> rowList = new ArrayList<>();
+        rowList.add(values);
+
+        String tableName = "ACCOUNT INFORMATION: ";
+        TableGenerator table = new TableGenerator();
+        System.out.print(table.generateTable(attributes, tableName, rowList));
+    }
+
+    protected void createAccount(String c_id) throws FileNotFoundException {
         String[] eachLine = readFile(customerData);
         for (String i : eachLine) {
             String[] eachValue = i.split(",");
-            if (Integer.parseInt(eachValue[0]) == c_id) {
-                setCustomerID(Integer.parseInt(eachValue[0]));
+            if (eachValue[0].equals(c_id)) {
+                setCustomerID(eachValue[0]);
                 setName(eachValue[1].toUpperCase());
                 setPassword(eachValue[3]);
                 generateAccount();
@@ -77,20 +126,20 @@ public class Account extends Manager{
         //Previous existence
         eachLine = readFile(accountData);
         boolean flag = true;
-        try{
+        try {
             for (String i : eachLine) {
                 String[] eachValue = i.split(",");
-                if (Integer.parseInt(eachValue[0]) == c_id) {
+                if (eachValue[0].equals(c_id)) {
                     flag = false;
+                    break;
                 }
             }
-        } catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             //Empty File
         }
         if (flag) dataEntry();
         else System.out.println("Status: C_ID " + getCustomerID() + " has been already verified.");
     }
-
 
     //Delete an account
 

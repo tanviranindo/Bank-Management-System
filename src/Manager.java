@@ -10,7 +10,7 @@ public class Manager extends Bank {
     String adminData = "C:\\Users\\Tanvir\\IdeaProjects\\Bank Management System\\src\\admin.txt";
 
     protected void login() {
-        super.login(adminData, "Admin");
+        super.login(adminData, "ADMIN");
         if (isAuthentication()) this.showOptions();
     }
 
@@ -51,9 +51,9 @@ public class Manager extends Bank {
         //CODE
         showCustomerDetails();
         Account verify = new Account();
-        System.out.print("Customer ID to verify: ");
+        System.out.print("Customer ID to Verify: ");
         Scanner input = new Scanner(System.in);
-        int c_id = input.nextInt();
+        String c_id = input.nextLine();
 
         try {
             verify.createAccount(c_id);
@@ -69,7 +69,7 @@ public class Manager extends Bank {
         attributes.add("Name");
         attributes.add("E-Mail");
         attributes.add("Password");
-        attributes.add("Balance");
+        attributes.add("Balance (\u09F3)");
         attributes.add("DOB");
         attributes.add("Contact");
         attributes.add("Address");
@@ -88,10 +88,10 @@ public class Manager extends Bank {
         //Setting attributes
         List<String> attributes = new ArrayList<>();
         attributes.add("C_ID");
-        attributes.add("Name");
         attributes.add("Password");
+        attributes.add("Name");
         attributes.add("Account Number");
-        attributes.add("Balance");
+        attributes.add("Balance (\u09F3)");
 
         //Setting values
         try {
