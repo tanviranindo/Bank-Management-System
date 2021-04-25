@@ -14,7 +14,7 @@ public class Manager extends Bank {
         if (isAuthentication()) showOptions();
     }
 
-    private void showOptions() {
+    private void showOptions() throws FileNotFoundException {
         Scanner input = new Scanner(System.in);
         System.out.println("==================================");
         System.out.println("1. Show Account Details");
@@ -40,11 +40,12 @@ public class Manager extends Bank {
         }
     }
 
-    protected void verifyCustomer() {
+    protected void verifyCustomer() throws FileNotFoundException {
         //CODE
         System.out.println("Write : c_id + name + account_number + balance");
         showCustomerDetails();
-        Account verify = new Account(1);
+        Account verify = new Account();
+        verify.createAccount(1);
     }
 
     protected void showCustomerDetails() {

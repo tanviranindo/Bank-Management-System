@@ -1,42 +1,23 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 
-public class Account extends Manager {
-    int c_id;
+public class Account {
+    int customerID;
     String name;
     String account;
+    String password;
     float balance;
 
     String accountData = "C:\\Users\\Tanvir\\IdeaProjects\\Bank Management System\\src\\account.txt";
     String customerData = "C:\\Users\\Tanvir\\IdeaProjects\\Bank Management System\\src\\customer.txt";
 
-    Account() {
-//
+    public int getCustomerID() {
+        return customerID;
     }
 
-    public Account(int i) {
-        try {
-            Scanner input = new Scanner(new File(customerData));
-            String
-            while (input.hasNextLine()) {
-                rowsList.add(Arrays.asList(input.nextLine().split(",")));
-            }
-            input.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public int getC_id() {
-        return c_id;
-    }
-
-    public void setC_id(int c_id) {
-        this.c_id = c_id;
+    public void setCustomerID(int customerID) {
+        this.customerID = customerID;
     }
 
     public String getName() {
@@ -55,6 +36,14 @@ public class Account extends Manager {
         this.account = account;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public float getBalance() {
         return balance;
     }
@@ -67,5 +56,49 @@ public class Account extends Manager {
     }
 
     private void withdraw() {
+    }
+
+    protected void createAccount(int c_id) throws FileNotFoundException {
+        Scanner input = new Scanner(new File(customerData));
+        StringBuilder list = new StringBuilder();
+        while (input.hasNextLine()) {
+            list.append(input.nextLine()).append(System.lineSeparator());
+        }
+        input.close();
+
+        String[] eachLine = list.toString().split("\r\n");
+        for (int i = 0; i < eachLine.length; i++) {
+            String[] eachValue = eachLine[i].split(",");
+            if (Integer.parseInt(eachValue[0]) == c_id) {
+                setCustomerID(Integer.parseInt(eachValue[0]));
+                setName(eachValue[1].toUpperCase());
+                generateAccount();
+                setBalance(Float.parseFloat(eachValue[4]));
+            }
+        }
+    }
+
+
+    private String generateAccount() {
+        try {
+            Scanner input = new Scanner(new File(accountData));
+            StringBuilder list = new StringBuilder();
+            while (input.hasNextLine()) {
+                list.append(input.nextLine()).append(System.lineSeparator());
+            }
+            input.close();
+
+            String account = "4000-0000-0000-0000";
+            String[] eachLine = list.toString().split("\r\n");
+            String lastGeneratedAccount = eachLine[eachLine.length - 1].split(",")[2];
+            String[] arr = lastGeneratedAccount.split("-");
+
+            System.out.println(account);
+            return lastGeneratedAccount;
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return getAccount();
     }
 }
