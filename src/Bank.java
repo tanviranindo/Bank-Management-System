@@ -25,15 +25,6 @@ public class Bank {
             String password = input.nextLine();
             while (data.hasNextLine()) {
                 String[] account = data.nextLine().split(",");
-//            if (account[0].equals(id) || account[1].equals(password)) {
-//                if (!account[0].equals(id)) {
-//                    System.out.print("Account doesn't exist. ");
-//                } else if (!account[1].equals(password)) {
-//                    System.out.print("Wrong password. ");
-//                } else {
-//                    setAuthentication(true);
-//                }
-//            }
                 if (account[0].equals(id) && account[1].equals(password)) {
                     setAuthentication(true);
                     if (type.equals("USER")) this.name = account[2];
@@ -41,7 +32,7 @@ public class Bank {
             }
             data.close();
 
-            System.out.println("==================================");
+            System.out.println("============================================================");
             if (isAuthentication()) {
                 if (type.equals("USER")) {
                     System.out.println("HELLO " + this.name + "!");
@@ -49,7 +40,7 @@ public class Bank {
             } else {
                 System.out.println("Authentication Failed");
             }
-            System.out.println("==================================");
+            System.out.println("============================================================");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

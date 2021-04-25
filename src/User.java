@@ -1,14 +1,6 @@
 import java.util.Scanner;
 
 public class User extends Account {
-    /**
-     * View Balance
-     * Withdraw (Accounts CLASS)
-     * Deposit (Accounts CLASS)
-     * View Details
-     * Transaction History
-     * Logout
-     **/
     protected void login() {
         super.login(accountData, "USER");
         if (isAuthentication()) {
@@ -25,38 +17,40 @@ public class User extends Account {
             System.out.println("3. Deposit");
             System.out.println("4. View Details");
             System.out.println("5. Transaction History");
-            System.out.println("6. Sign Out");
+            System.out.println("0. Sign Out");
             System.out.print("Select Operation: ");
             int option = input.nextInt();
 
 
             if (option == 1) {
-                System.out.println("==================================");
+                System.out.println("============================================================");
                 System.out.println("Your Balance is \u09F3 " + super.getBalance() + "/-");
-                System.out.println("==================================");
+                System.out.println("============================================================");
             } else if (option == 2) {
                 System.out.print("Withdraw Amount: ");
                 float amount = input.nextFloat();
-                System.out.println("==================================");
+                System.out.println("============================================================");
                 withdraw(amount);
-                System.out.println("==================================");
+                System.out.println("============================================================");
             } else if (option == 3) {
                 System.out.print("Deposit Amount: ");
                 float amount = input.nextFloat();
-                System.out.println("==================================");
+                System.out.println("============================================================");
                 deposit(amount);
-                System.out.println("==================================");
+                System.out.println("============================================================");
             } else if (option == 4) {
                 viewDetails();
             } else if (option == 5) {
-//            showCustomerDetails();
-//            updateCustomerDetails();
-            } else if (option == 6) {
+                showTransaction();
+            } else if (option == 0) {
                 super.setAuthentication(false);
-                super.updateData();
-                System.out.println("==================================");
+                System.out.println("============================================================");
                 System.out.println("Logged Out");
-                System.out.println("==================================");
+                System.out.println("============================================================");
+            } else {
+                System.out.println("============================================================");
+                System.out.println("Wrong Option Selected! Please try again.");
+                System.out.println("============================================================");
             }
         }
     }

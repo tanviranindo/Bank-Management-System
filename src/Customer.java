@@ -4,8 +4,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class Customer {
-    int CID = 0;
+public class Customer extends Manager {
+    int customerID = 0;
     String name;
     String email;
     String password;
@@ -13,25 +13,24 @@ public class Customer {
     String DOB;
     String contact;
     String address;
-    String customerData = "C:\\Users\\Tanvir\\IdeaProjects\\Bank Management System\\src\\customer.txt";
 
     public void setID() {
         try {
-            Scanner data = new Scanner(new File(customerData));
+            Scanner data = new Scanner(new File(super.customerData));
             int temp = 0;
             while (data.hasNextLine()) {
                 String[] arr = data.nextLine().split(",");
                 temp = Integer.parseInt(arr[0]);
             }
-            this.CID = temp + 1;
+            this.customerID = temp + 1;
             data.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
 
-    public int getCID() {
-        return CID;
+    public int getCustomerID() {
+        return customerID;
     }
 
     public String getName() {
@@ -111,12 +110,15 @@ public class Customer {
     }
 
     private void dataEntry() {
+        System.out.println("============================================================");
         try {
-            FileWriter file = new FileWriter(customerData, true);
-            file.write(getCID() + "," + getName() + "," + getEmail() + "," + getPassword() + "," + getStartBalance() + "," + getDOB() + "," + getContact() + "," + getAddress() + "\n");
+            FileWriter file = new FileWriter(super.customerData, true);
+            file.write(getCustomerID() + "," + getName() + "," + getEmail() + "," + getPassword() + "," + getStartBalance() + "," + getDOB() + "," + getContact() + "," + getAddress() + "\n");
             file.close();
+            System.out.println("Status: " + getName() + "(CID-" + getCustomerID() + ") has been created.");
         } catch (IOException ignored) {
-            //Ignored
+            System.out.println("Status: Verification could not be processed due to an error.");
         }
+        System.out.println("============================================================");
     }
 }
