@@ -9,30 +9,41 @@ public class Manager extends Bank {
     String customerData = "C:\\Users\\Tanvir\\IdeaProjects\\Bank Management System\\src\\customer.txt";
     String adminData = "C:\\Users\\Tanvir\\IdeaProjects\\Bank Management System\\src\\admin.txt";
 
-    protected void login() throws IOException {
-        super.login(adminData, "Admin");
-        if (isAuthentication()) showOptions();
+    protected void login() {
+        try {
+            super.login(adminData, "Admin");
+            if (isAuthentication()) showOptions();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void showOptions() throws FileNotFoundException {
+    private void showOptions() {
         Scanner input = new Scanner(System.in);
         System.out.println("==================================");
-        System.out.println("1. Show Account Details");
-        System.out.println("2. Edit Account Details");
-        System.out.println("3. Verify Account");
+        System.out.println("1. Verify Customer");
+        System.out.println("2. Show Accounts Details");
+        System.out.println("3. Delete Account Details");
         System.out.println("4. Show Customer Details");
-        System.out.println("5. Edit Customer Details");
-        System.out.println("6. Sign Out");
-        System.out.print("Select to Operate: ");
+        System.out.println("5. Update Customer Details");
+        System.out.println("6. Delete Customer Details");
+        System.out.println("7. Sign Out");
+        System.out.print("Select Operation: ");
         int option = input.nextInt();
-        if (option == 3) {
+        if (option == 1) {
             verifyCustomer();
+        } else if (option == 2) {
+            showAccountDetails();
+        } else if (option == 3) {
+//            deleteAccount();
         } else if (option == 4) {
             showCustomerDetails();
         } else if (option == 5) {
             showCustomerDetails();
-            editCustomerDetails();
+            updateCustomerDetails();
         } else if (option == 6) {
+//            deleteCustomer();
+        } else if (option == 7) {
             super.setAuthentication(false);
             System.out.println("==================================");
             System.out.println("Logged Out");
@@ -40,12 +51,19 @@ public class Manager extends Bank {
         }
     }
 
-    protected void verifyCustomer() throws FileNotFoundException {
+    protected void verifyCustomer() {
         //CODE
-        System.out.println("Write : c_id + name + account_number + balance");
         showCustomerDetails();
         Account verify = new Account();
-        verify.createAccount(1);
+        System.out.print("Customer ID to verify: ");
+        Scanner input = new Scanner(System.in);
+        int c_id = input.nextInt();
+
+        try {
+            verify.createAccount(c_id);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     protected void showCustomerDetails() {
@@ -70,7 +88,26 @@ public class Manager extends Bank {
         }
     }
 
-    protected void editCustomerDetails() {
+    protected void showAccountDetails() {
+        //Setting attributes
+        List<String> attributes = new ArrayList<>();
+        attributes.add("C_ID");
+        attributes.add("Name");
+        attributes.add("Password");
+        attributes.add("Account Number");
+        attributes.add("Balance");
+
+        //Setting values
+        try {
+            Scanner input = new Scanner(new File(accountData));
+            String tableName = "ACCOUNT DATA: ";
+            settingRowValues(input, tableName, attributes);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected void updateCustomerDetails() {
         File fileToBeModified = new File(customerData);
         StringBuilder oldContent = new StringBuilder();
         BufferedReader reader;
@@ -123,23 +160,7 @@ public class Manager extends Bank {
         }
     }
 
-    protected void showAccountDetails() {
-        //Setting attributes
-        List<String> attributes = new ArrayList<>();
-        attributes.add("C_ID");
-        attributes.add("Name");
-        attributes.add("Account Number");
-        attributes.add("Balance");
-
-        //Setting values
-        try {
-            Scanner input = new Scanner(new File(accountData));
-            String tableName = "ACCOUNT DATA: ";
-            settingRowValues(input, tableName, attributes);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
+    //Delete a customer
 
     private void settingRowValues(Scanner input, String tableName, List<String> attributes) {
         List<List<String>> rowsList = new ArrayList<>();

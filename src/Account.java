@@ -1,5 +1,8 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Account {
@@ -16,7 +19,7 @@ public class Account {
         return customerID;
     }
 
-    public void setCustomerID(int customerID) {
+    private void setCustomerID(int customerID) {
         this.customerID = customerID;
     }
 
@@ -24,7 +27,7 @@ public class Account {
         return name;
     }
 
-    public void setName(String name) {
+    private void setName(String name) {
         this.name = name;
     }
 
@@ -32,7 +35,7 @@ public class Account {
         return account;
     }
 
-    public void setAccount(String account) {
+    private void setAccount(String account) {
         this.account = account;
     }
 
@@ -40,7 +43,7 @@ public class Account {
         return password;
     }
 
-    public void setPassword(String password) {
+    private void setPassword(String password) {
         this.password = password;
     }
 
@@ -48,57 +51,79 @@ public class Account {
         return balance;
     }
 
-    public void setBalance(float balance) {
+    protected void setBalance(float balance) {
         this.balance = balance;
     }
 
-    private void deposit() {
+    protected void deposit() {
     }
 
-    private void withdraw() {
+    protected void withdraw() {
     }
 
     protected void createAccount(int c_id) throws FileNotFoundException {
-        Scanner input = new Scanner(new File(customerData));
+        String[] eachLine = readFile(customerData);
+        for (String i : eachLine) {
+            String[] eachValue = i.split(",");
+            if (Integer.parseInt(eachValue[0]) == c_id) {
+                setCustomerID(Integer.parseInt(eachValue[0]));
+                setName(eachValue[1].toUpperCase());
+                setPassword(eachValue[3]);
+                generateAccount();
+                setBalance(Float.parseFloat(eachValue[4]));
+            }
+        }
+
+        //Previous existence
+        eachLine = readFile(accountData);
+        boolean flag = true;
+        for (String i : eachLine) {
+            String[] eachValue = i.split(",");
+            if (Integer.parseInt(eachValue[0]) == c_id) {
+                flag = false;
+            }
+        }
+        if (flag) dataEntry();
+        else System.out.println("Status: C_ID " + getCustomerID() + " has been already verified.");
+    }
+
+
+    //Delete an account
+
+    private void dataEntry() {
+        try {
+            FileWriter file = new FileWriter(accountData, true);
+            file.write(getCustomerID() + "," + getName() + "," + getPassword() + "," + getAccount() + "," + getBalance() + "\n");
+            file.close();
+            System.out.println("Status: " + getName() + "(CID-" + getCustomerID() + ") has been verified.");
+        } catch (IOException ignored) {
+            System.out.println("Status: Verification could not be processed due to an error.");
+        }
+    }
+
+
+    private void generateAccount() {
+        Random rand = new Random();
+        StringBuilder card = new StringBuilder();
+        StringBuilder accountNumber = new StringBuilder();
+        for (int i = 0; i < 16; i++) {
+            int n = rand.nextInt(10);
+            card.append(n);
+        }
+        for (int i = 0; i < 16; i++) {
+            if (i % 4 == 0 && i != 0) accountNumber.append("-");
+            accountNumber.append(card.charAt(i));
+        }
+        setAccount(accountNumber.toString());
+    }
+
+    private String[] readFile(String fileName) throws FileNotFoundException {
+        Scanner input = new Scanner(new File(fileName));
         StringBuilder list = new StringBuilder();
         while (input.hasNextLine()) {
             list.append(input.nextLine()).append(System.lineSeparator());
         }
         input.close();
-
-        String[] eachLine = list.toString().split("\r\n");
-        for (int i = 0; i < eachLine.length; i++) {
-            String[] eachValue = eachLine[i].split(",");
-            if (Integer.parseInt(eachValue[0]) == c_id) {
-                setCustomerID(Integer.parseInt(eachValue[0]));
-                setName(eachValue[1].toUpperCase());
-                generateAccount();
-                setBalance(Float.parseFloat(eachValue[4]));
-            }
-        }
-    }
-
-
-    private String generateAccount() {
-        try {
-            Scanner input = new Scanner(new File(accountData));
-            StringBuilder list = new StringBuilder();
-            while (input.hasNextLine()) {
-                list.append(input.nextLine()).append(System.lineSeparator());
-            }
-            input.close();
-
-            String account = "4000-0000-0000-0000";
-            String[] eachLine = list.toString().split("\r\n");
-            String lastGeneratedAccount = eachLine[eachLine.length - 1].split(",")[2];
-            String[] arr = lastGeneratedAccount.split("-");
-
-            System.out.println(account);
-            return lastGeneratedAccount;
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return getAccount();
+        return list.toString().split("\r\n");
     }
 }
