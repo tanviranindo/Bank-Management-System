@@ -2,11 +2,6 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Main t1 = new Main();
-        t1.run();
-    }
-
-    public void run() {
         Scanner input = new Scanner(System.in);
         System.out.println("============================================================");
         System.out.println("WELCOME TO BANK MANAGEMENT SYSTEM!");

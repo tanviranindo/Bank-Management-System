@@ -241,15 +241,8 @@ public class Manager extends Bank {
 
     protected void showAllTransaction() {
         //Setting attributes
-        List<String> attributes = new ArrayList<>();
-        attributes.add("C_ID");
-        attributes.add("NAME");
-        attributes.add("ACCOUNT NUMBER");
-        attributes.add("TRX_ID");
-        attributes.add("TRANSACTION TYPE");
-        attributes.add("AMOUNT (\u09F3)");
-        attributes.add("BALANCE (\u09F3)");
-        attributes.add("STATUS (\u09F3)");
+        transactionAttributes();
+        List<String> attributes = null;
 
         //Setting values
         try {
@@ -259,6 +252,19 @@ public class Manager extends Bank {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    protected List<String> transactionAttributes() {
+        List<String> attributes = new ArrayList<>();
+        attributes.add("C_ID");
+        attributes.add("NAME");
+        attributes.add("ACCOUNT NUMBER");
+        attributes.add("TRX_ID");
+        attributes.add("TRANSACTION TYPE");
+        attributes.add("AMOUNT (\u09F3)");
+        attributes.add("BALANCE (\u09F3)");
+        attributes.add("STATUS (\u09F3)");
+        return attributes;
     }
 
 

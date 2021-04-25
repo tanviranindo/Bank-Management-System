@@ -248,16 +248,7 @@ public class Account extends Manager {
 
     protected void showTransaction() {
         //Setting attributes
-        List<String> attributes = new ArrayList<>();
-        attributes.add("C_ID");
-        attributes.add("NAME");
-        attributes.add("ACCOUNT NUMBER");
-        attributes.add("TRX_ID");
-        attributes.add("TRANSACTION TYPE");
-        attributes.add("AMOUNT (\u09F3)");
-        attributes.add("BALANCE (\u09F3)");
-        attributes.add("STATUS (\u09F3)");
-
+        List<String> attributes = super.transactionAttributes();
         //Setting values
         try {
             Scanner input = new Scanner(new File(transactionData));
