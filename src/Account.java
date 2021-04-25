@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Account {
+public class Account extends Manager{
     int customerID;
     String name;
     String account;
@@ -77,11 +77,15 @@ public class Account {
         //Previous existence
         eachLine = readFile(accountData);
         boolean flag = true;
-        for (String i : eachLine) {
-            String[] eachValue = i.split(",");
-            if (Integer.parseInt(eachValue[0]) == c_id) {
-                flag = false;
+        try{
+            for (String i : eachLine) {
+                String[] eachValue = i.split(",");
+                if (Integer.parseInt(eachValue[0]) == c_id) {
+                    flag = false;
+                }
             }
+        } catch (NumberFormatException e){
+            //Empty File
         }
         if (flag) dataEntry();
         else System.out.println("Status: C_ID " + getCustomerID() + " has been already verified.");
@@ -93,7 +97,7 @@ public class Account {
     private void dataEntry() {
         try {
             FileWriter file = new FileWriter(accountData, true);
-            file.write(getCustomerID() + "," + getName() + "," + getPassword() + "," + getAccount() + "," + getBalance() + "\n");
+            file.write(getCustomerID() + "," + getPassword() + "," + getName() + "," + getAccount() + "," + getBalance() + "\n");
             file.close();
             System.out.println("Status: " + getName() + "(CID-" + getCustomerID() + ") has been verified.");
         } catch (IOException ignored) {

@@ -11,7 +11,7 @@ public class Manager extends Bank {
 
     protected void login() {
         super.login(adminData, "Admin");
-        if (isAuthentication()) showOptions();
+        if (isAuthentication()) this.showOptions();
     }
 
     private void showOptions() {
