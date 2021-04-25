@@ -10,12 +10,8 @@ public class Manager extends Bank {
     String adminData = "C:\\Users\\Tanvir\\IdeaProjects\\Bank Management System\\src\\admin.txt";
 
     protected void login() {
-        try {
-            super.login(adminData, "Admin");
-            if (isAuthentication()) showOptions();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        super.login(adminData, "Admin");
+        if (isAuthentication()) showOptions();
     }
 
     private void showOptions() {

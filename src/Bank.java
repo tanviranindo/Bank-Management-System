@@ -14,15 +14,16 @@ public class Bank {
         this.authentication = authentication;
     }
 
-    protected void login(String address, String type) throws FileNotFoundException {
-        Scanner data = new Scanner(new File(address));
-        Scanner input = new Scanner(System.in);
-        System.out.print("Enter " + type + "_ID: ");
-        id = input.nextLine();
-        System.out.print("Enter Password: ");
-        String password = input.nextLine();
-        while (data.hasNextLine()) {
-            String[] account = data.nextLine().split(",");
+    protected void login(String address, String type) {
+        try {
+            Scanner data = new Scanner(new File(address));
+            Scanner input = new Scanner(System.in);
+            System.out.print("Enter " + type + "_ID: ");
+            id = input.nextLine();
+            System.out.print("Enter Password: ");
+            String password = input.nextLine();
+            while (data.hasNextLine()) {
+                String[] account = data.nextLine().split(",");
 //            if (account[0].equals(id) || account[1].equals(password)) {
 //                if (!account[0].equals(id)) {
 //                    System.out.print("Account doesn't exist. ");
@@ -32,10 +33,13 @@ public class Bank {
 //                    setAuthentication(true);
 //                }
 //            }
-            if (account[0].equals(id) && account[1].equals(password)) setAuthentication(true);
+                if (account[0].equals(id) && account[1].equals(password)) setAuthentication(true);
+            }
+            data.close();
+            System.out.println("==================================");
+            System.out.println(isAuthentication() ? "Authentication Successful" : "Authentication Failed");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
-        data.close();
-        System.out.println("==================================");
-        System.out.println(isAuthentication() ? "Authentication Successful" : "Authentication Failed");
     }
 }

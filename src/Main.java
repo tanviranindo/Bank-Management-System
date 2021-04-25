@@ -1,8 +1,7 @@
-import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
 //        boolean test = true;
 //        while (test) {
@@ -15,8 +14,8 @@ public class Main {
 //            System.out.println("=========================================");
 //            if (type == 1) {
 //                System.out.println("Admin Login");
-        Manager admin = new Manager();
-        admin.login();
+//        Manager admin = new Manager();
+//        admin.login();
 
 //            } else if (type == 2) {
 //        Account user = new Account();
