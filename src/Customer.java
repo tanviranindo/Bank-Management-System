@@ -113,7 +113,8 @@ public class Customer extends Manager {
         System.out.println("============================================================================");
         try {
             FileWriter file = new FileWriter(super.customerData, true);
-            file.write(getCustomerID() + "," + getName() + "," + getEmail() + "," + getPassword() + "," + getStartBalance() + "," + getDOB() + "," + getContact() + "," + getAddress() + "\n");
+            file.write(getCustomerID() + "," + getName() + "," + getEmail() + "," + getPassword() + ","
+                    + getStartBalance() + "," + getDOB() + "," + getContact() + "," + getAddress() + "\n");
             file.close();
             System.out.println("Status: " + getName() + "(CID-" + getCustomerID() + ") has been created.");
         } catch (IOException ignored) {

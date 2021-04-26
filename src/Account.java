@@ -203,7 +203,7 @@ public class Account extends Manager {
             FileWriter file = new FileWriter(super.accountData, true);
             file.write(getCustomerID() + "," + getPassword() + "," + getName() + "," + getAccount() + "," + getBalance() + "\n");
             file.close();
-            makeTransaction("STARTING BALANCE", getBalance(), true);
+            makeTransaction("STARTING", getBalance(), true);
             System.out.println("Status: " + getName() + "(C_ID-" + getCustomerID() + ") has been verified.");
         } catch (IOException ignored) {
             System.out.println("Status: Verification could not be processed due to an error.");

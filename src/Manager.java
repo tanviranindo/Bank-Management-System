@@ -85,7 +85,7 @@ public class Manager extends Bank {
         attributes.add("NAME");
         attributes.add("E-MAIL");
         attributes.add("PASSWORD");
-        attributes.add("BALANCE (\u09F3)");
+        attributes.add("BALANCE (BDT)");
         attributes.add("DOB");
         attributes.add("CONTACT");
         attributes.add("ADDRESS");
@@ -197,7 +197,7 @@ public class Manager extends Bank {
                         Account one = new Account();
                         one.init(c_id);
                         flag = true;
-                        one.makeTransaction("UPDATING", one.getBalance(), true);
+                        one.makeTransaction("MANAGEMENT", one.getBalance(), true);
                     }
                 }
 
@@ -237,7 +237,34 @@ public class Manager extends Bank {
 
             Scanner input = new Scanner(System.in);
             System.out.print("Provide Transaction ID: ");
-            deleteFromFile(fileToBeModified, eachLine, newContent, input);
+            String transactionId = input.nextLine().toUpperCase();
+            boolean flag = false;
+
+            for (String i : eachLine) {
+                String[] eachValue = i.split(",");
+                if (!eachValue[3].equals(transactionId)) {
+                    newContent.append(i).append("\r\n");
+                } else flag = true;
+            }
+
+            try {
+                OutputStream outputStream = new FileOutputStream(fileToBeModified);
+                Writer file = new OutputStreamWriter(outputStream);
+                file.write(newContent.toString());
+                file.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if(flag) {
+                System.out.println("============================================================================");
+                System.out.println("Status: " + transactionId + " has been deleted.");
+                System.out.println("============================================================================");
+            }
+            else {
+                System.out.println("============================================================================");
+                System.out.println("Status: " + transactionId + " not found.");
+                System.out.println("============================================================================");
+            }
         } catch (IOException e) {
             System.out.println("============================================================================");
             System.out.println("Status: Could not be processed due to an error.");
@@ -246,26 +273,9 @@ public class Manager extends Bank {
     }
 
     //Deletion not working
-    private void deleteFromFile(File fileToBeModified, String[] eachLine, StringBuilder newContent, Scanner input) throws IOException {
-        String c_id = input.nextLine().toUpperCase();
-
-        for (String i : eachLine) {
-            String[] eachValue = i.split(",");
-            if (!eachValue[0].equals(c_id)) {
-                System.out.println(i + "\r\n");
-                newContent.append(i).append("\r\n");
-            }
-        }
-
-        OutputStream outputStream = new FileOutputStream(fileToBeModified);
-        Writer file = new OutputStreamWriter(outputStream);
-        file.flush();
-        file.write(newContent.toString());
-        file.close();
-        System.out.println("============================================================================");
-        System.out.println("Status: C_ID(" + c_id + ") has been deleted.");
-        System.out.println("============================================================================");
-    }
+//    private void deleteFromFile(File fileToBeModified, String[] eachLine, StringBuilder newContent, Scanner input) {
+//
+//    }
 
     private void deleteRow(String accountData) {
         File fileToBeModified = new File(accountData);
@@ -275,7 +285,35 @@ public class Manager extends Bank {
 
             Scanner input = new Scanner(System.in);
             System.out.print("Provide Customer ID: ");
-            deleteFromFile(fileToBeModified, eachLine, newContent, input);
+            String c_id = input.nextLine().toUpperCase();
+            boolean flag = false;
+
+            for (String i : eachLine) {
+                String[] eachValue = i.split(",");
+                if (!eachValue[0].equals(c_id)) {
+                    System.out.println(i + "\r\n");
+                    newContent.append(i).append("\r\n");
+                } else flag = true;
+            }
+
+            try {
+                OutputStream outputStream = new FileOutputStream(fileToBeModified);
+                Writer file = new OutputStreamWriter(outputStream);
+                file.write(newContent.toString());
+                file.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if(flag) {
+                System.out.println("============================================================================");
+                System.out.println("Status: C_ID(" + c_id + ") has been deleted.");
+                System.out.println("============================================================================");
+            }
+            else {
+                System.out.println("============================================================================");
+                System.out.println("Status: C_ID(" + c_id + ") not found.");
+                System.out.println("============================================================================");
+            }
         } catch (IOException e) {
             System.out.println("============================================================================");
             System.out.println("Status: Could not be processed due to an error.");
