@@ -140,8 +140,9 @@ public class Manager extends Bank {
             else if (change == 1 || change == 2 || change == 3 || change == 4) flag = true;
 
 
-            if(flag) modifyDetails(fileToBeModified, eachLine, newContent, c_id, change);
-            else {
+            if (flag) {
+                modifyDetails(fileToBeModified, eachLine, newContent, c_id, change);
+            } else {
                 System.out.println("============================================================================");
                 System.out.println("Wrong Option Selected! Please try again.");
                 System.out.println("============================================================================");
@@ -185,13 +186,21 @@ public class Manager extends Bank {
         System.out.print("Set Value: ");
         Scanner input = new Scanner(System.in);
         String value = input.nextLine();
+        boolean flag = false;
 
         for (String i : eachLine) {
             String[] eachValue = i.split(",");
             for (int j = 0; j < eachValue.length; j++) {
                 if (eachValue[0].equals(c_id)) {
                     eachValue[change] = value;
+                    if (change == 4 && !flag) {
+                        Account one = new Account();
+                        one.init(c_id);
+                        flag = true;
+                        one.makeTransaction("UPDATING", one.getBalance(), true);
+                    }
                 }
+
                 newContent.append(j != 3 ? eachValue[j].toUpperCase() : eachValue[j]);
                 if (j != eachValue.length - 1) newContent.append(",");
             }
@@ -236,16 +245,21 @@ public class Manager extends Bank {
         }
     }
 
+    //Deletion not working
     private void deleteFromFile(File fileToBeModified, String[] eachLine, StringBuilder newContent, Scanner input) throws IOException {
         String c_id = input.nextLine().toUpperCase();
 
         for (String i : eachLine) {
             String[] eachValue = i.split(",");
-            if (!eachValue[0].equals(c_id)) newContent.append(i).append("\r\n");
+            if (!eachValue[0].equals(c_id)) {
+                System.out.println(i + "\r\n");
+                newContent.append(i).append("\r\n");
+            }
         }
 
         OutputStream outputStream = new FileOutputStream(fileToBeModified);
         Writer file = new OutputStreamWriter(outputStream);
+        file.flush();
         file.write(newContent.toString());
         file.close();
         System.out.println("============================================================================");
