@@ -24,9 +24,7 @@ public class Account extends Manager {
         return customerID;
     }
 
-    private void setCustomerID(String customerID) {
-        this.customerID = customerID;
-    }
+    private void setCustomerID(String customerID) { this.customerID = customerID; }
 
     public String getName() {
         return name;
@@ -160,6 +158,7 @@ public class Account extends Manager {
         }
     }
 
+    //Creating new account for customer
     protected void createAccount(String c_id) {
         try {
             String[] eachLine = super.readFile(super.customerData);

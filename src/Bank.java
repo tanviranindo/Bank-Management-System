@@ -15,6 +15,7 @@ public class Bank {
         this.authentication = authentication;
     }
 
+    //Reading the admin.txt file and giving authentication (boolean-true/false)
     protected void login(String address, String type) {
         try {
             Scanner data = new Scanner(new File(address));
@@ -25,7 +26,7 @@ public class Bank {
             String password = input.nextLine();
             while (data.hasNextLine()) {
                 String[] account = data.nextLine().split(",");
-                if (account[0].equals(id) && account[1].equals(password)) {
+                if (account[0].equals(id) && account[1].equals(password)) { //matching
                     setAuthentication(true);
                     if (type.equals("USER")) this.name = account[2];
                 }

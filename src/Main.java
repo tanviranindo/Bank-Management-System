@@ -18,7 +18,7 @@ public class Main {
                 case "1" -> {
                     System.out.println("============================================================================");
                     System.out.println("ADMIN PANEL [CASE SENSITIVE]");
-                    Manager admin = new Manager();
+                    Manager admin = new Manager(); //Login into manager panel
                     admin.login();
                 }
                 case "2" -> {

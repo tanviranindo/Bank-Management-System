@@ -10,11 +10,13 @@ public class Manager extends Bank {
     String adminData = "C:\\Users\\Tanvir\\IdeaProjects\\Bank Management System\\src\\admin.txt";
     String transactionData = "C:\\Users\\Tanvir\\IdeaProjects\\Bank Management System\\src\\transaction.txt";
 
+    //Created under a super class name "BANK" (method overriding)
     protected void login() {
         super.login(adminData, "ADMIN");
         if (isAuthentication()) this.showOptions();
     }
 
+    //Manager Panel
     private void showOptions() {
         while (isAuthentication()) {
             Scanner input = new Scanner(System.in);
@@ -72,13 +74,14 @@ public class Manager extends Bank {
         }
     }
 
+    //Reading customer.txt file and creating account
     protected void verifyCustomer() {
         //CODE
-        showCustomerDetails();
+        showCustomerDetails(); //View Customer Data
         Account verify = new Account();
         System.out.print("Customer ID to Verify: ");
         Scanner input = new Scanner(System.in);
-        String c_id = input.nextLine();
+        String c_id = input.nextLine(); //Particular ID to verify
         verify.createAccount(c_id);
     }
 
@@ -300,7 +303,6 @@ public class Manager extends Bank {
             for (String i : eachLine) {
                 String[] eachValue = i.split(",");
                 if (!eachValue[0].equals(c_id)) {
-//                    System.out.println(i + "\r\n");
                     newContent.append(i).append("\r\n");
                 } else flag = true;
             }
