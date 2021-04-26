@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Manager extends Bank {
-    String accountData = "C:\\Users\\Tanvir\\IdeaProjects\\Bank Management System\\src\\account.txt";
-    String customerData = "C:\\Users\\Tanvir\\IdeaProjects\\Bank Management System\\src\\customer.txt";
-    String adminData = "C:\\Users\\Tanvir\\IdeaProjects\\Bank Management System\\src\\admin.txt";
-    String transactionData = "C:\\Users\\Tanvir\\IdeaProjects\\Bank Management System\\src\\transaction.txt";
+    String accountData = "account.txt";
+    String customerData = "customer.txt";
+    String adminData = "admin.txt";
+    String transactionData = "transaction.txt";
 
     //Created under a super class name "BANK" (method overriding)
     protected void login() {
