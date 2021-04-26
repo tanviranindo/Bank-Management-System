@@ -13,44 +13,54 @@ public class Main {
             System.out.println("2. Customer");
             System.out.println("0. Exit");
             System.out.print("Enter Option: ");
-            int type = input.nextInt();
-            if (type == 1) {
-                System.out.println("============================================================================");
-                System.out.println("ADMIN PANEL");
-                Manager admin = new Manager();
-                admin.login();
-            } else if (type == 2) {
-                System.out.println("============================================================================");
-                System.out.println("USER PANEL");
-                System.out.println("1. Login");
-                System.out.println("2. Registration");
-                System.out.println("0. Back");
-                System.out.print("Enter Option: ");
-                int option = input.nextInt();
-                System.out.println("============================================================================");
-                if (option == 1) {
-                    User profile = new User();
-                    profile.login();
-                } else if (option == 2) {
-                    Customer profile = new Customer();
-                    profile.registration();
-                } else if (option == 0) {
-                    System.out.println("HEADING TO HOME");
+            String type = input.nextLine();
+            switch (type) {
+                case "1" -> {
                     System.out.println("============================================================================");
-                } else {
+                    System.out.println("ADMIN PANEL [CASE SENSITIVE]");
+                    Manager admin = new Manager();
+                    admin.login();
+                }
+                case "2" -> {
+                    System.out.println("============================================================================");
+                    System.out.println("USER PANEL [CASE SENSITIVE]");
+                    System.out.println("1. Login");
+                    System.out.println("2. Registration");
+                    System.out.println("0. Back");
+                    System.out.print("Enter Option: ");
+                    String option = input.nextLine();
+                    System.out.println("============================================================================");
+                    switch (option) {
+                        case "1" -> {
+                            User profile = new User();
+                            profile.login();
+                        }
+                        case "2" -> {
+                            Customer profile = new Customer();
+                            profile.registration();
+                        }
+                        case "0" -> {
+                            System.out.println("HEADING TO HOME");
+                            System.out.println("============================================================================");
+                        }
+                        default -> {
+                            System.out.println("============================================================================");
+                            System.out.println("Wrong Option Selected! Please try again.");
+                            System.out.println("============================================================================");
+                        }
+                    }
+                }
+                case "0" -> {
+                    test = false;
+                    System.out.println("============================================================================");
+                    System.out.println("Exit");
+                    System.out.println("============================================================================");
+                }
+                default -> {
                     System.out.println("============================================================================");
                     System.out.println("Wrong Option Selected! Please try again.");
                     System.out.println("============================================================================");
                 }
-            } else if (type == 0) {
-                test = false;
-                System.out.println("============================================================================");
-                System.out.println("Exit");
-                System.out.println("============================================================================");
-            } else {
-                System.out.println("============================================================================");
-                System.out.println("Wrong Option Selected! Please try again.");
-                System.out.println("============================================================================");
             }
         }
     }

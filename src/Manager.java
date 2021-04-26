@@ -30,40 +30,44 @@ public class Manager extends Bank {
             System.out.println("9. Delete Transactions Details");
             System.out.println("0. Sign Out");
             System.out.print("Select Operation: ");
-            int option = input.nextInt();
+            String option = input.nextLine();
 
-            if (option == 1) {
-                verifyCustomer();
-            } else if (option == 2) {
-                showAccountDetails();
-            } else if (option == 3) {
-                showAccountDetails();
-                updateAccountDetails();
-            } else if (option == 4) {
-                showAccountDetails();
-                deleteAccount();
-            } else if (option == 5) {
-                showCustomerDetails();
-            } else if (option == 6) {
-                showCustomerDetails();
-                updateCustomerDetails();
-            } else if (option == 7) {
-                showCustomerDetails();
-                deleteCustomer();
-            } else if (option == 8) {
-                showAllTransaction();
-            } else if (option == 9) {
-                showAllTransaction();
-                deleteTransaction();
-            } else if (option == 0) {
-                super.setAuthentication(false);
-                System.out.println("============================================================================");
-                System.out.println("Logged Out");
-                System.out.println("============================================================================");
-            } else {
-                System.out.println("============================================================================");
-                System.out.println("Wrong Option Selected! Please try again.");
-                System.out.println("============================================================================");
+            switch (option) {
+                case "1" -> verifyCustomer();
+                case "2" -> showAccountDetails();
+                case "3" -> {
+                    showAccountDetails();
+                    updateAccountDetails();
+                }
+                case "4" -> {
+                    showAccountDetails();
+                    deleteAccount();
+                }
+                case "5" -> showCustomerDetails();
+                case "6" -> {
+                    showCustomerDetails();
+                    updateCustomerDetails();
+                }
+                case "7" -> {
+                    showCustomerDetails();
+                    deleteCustomer();
+                }
+                case "8" -> showAllTransaction();
+                case "9" -> {
+                    showAllTransaction();
+                    deleteTransaction();
+                }
+                case "0" -> {
+                    super.setAuthentication(false);
+                    System.out.println("============================================================================");
+                    System.out.println("Logged Out");
+                    System.out.println("============================================================================");
+                }
+                default -> {
+                    System.out.println("============================================================================");
+                    System.out.println("Wrong Option Selected! Please try again.");
+                    System.out.println("============================================================================");
+                }
             }
         }
     }
@@ -133,12 +137,11 @@ public class Manager extends Bank {
             System.out.println("4. Balance");
             System.out.println("0. Back");
             System.out.print("Update: ");
-            int change = input.nextInt();
+            String change = input.nextLine();
 
             boolean flag = false;
-            if (change == 0) return;
-            else if (change == 1 || change == 2 || change == 3 || change == 4) flag = true;
-
+            if (change.equals("0")) return;
+            else if (change.equals("1") || change.equals("2") || change.equals("3") || change.equals("4")) flag = true;
 
             if (flag) {
                 modifyDetails(fileToBeModified, eachLine, newContent, c_id, change);
@@ -171,9 +174,20 @@ public class Manager extends Bank {
             System.out.println("7. Address");
             System.out.println("0. Back");
             System.out.print("Update: ");
-            int change = input.nextInt();
-            if (change == 0) return;
-            modifyDetails(fileToBeModified, eachLine, newContent, c_id, change);
+            String change = input.nextLine();
+
+            boolean flag = false;
+            if (change.equals("0")) return;
+            else if (change.equals("1") || change.equals("2") || change.equals("3") || change.equals("4") || change.equals("5") || change.equals("6") || change.equals("7"))
+                flag = true;
+
+            if (flag) {
+                modifyDetails(fileToBeModified, eachLine, newContent, c_id, change);
+            } else {
+                System.out.println("============================================================================");
+                System.out.println("Wrong Option Selected! Please try again.");
+                System.out.println("============================================================================");
+            }
         } catch (IOException e) {
             System.out.println("============================================================================");
             System.out.println("Status: Could not be processed due to an error.");
@@ -182,7 +196,7 @@ public class Manager extends Bank {
     }
 
 
-    private void modifyDetails(File fileToBeModified, String[] eachLine, StringBuilder newContent, String c_id, int change) {
+    private void modifyDetails(File fileToBeModified, String[] eachLine, StringBuilder newContent, String c_id, String change) {
         System.out.print("Set Value: ");
         Scanner input = new Scanner(System.in);
         String value = input.nextLine();
@@ -192,8 +206,8 @@ public class Manager extends Bank {
             String[] eachValue = i.split(",");
             for (int j = 0; j < eachValue.length; j++) {
                 if (eachValue[0].equals(c_id)) {
-                    eachValue[change] = value;
-                    if (change == 4 && !flag) {
+                    eachValue[Integer.parseInt(change)] = value;
+                    if (change.equals("4") && !flag) {
                         Account one = new Account();
                         one.init(c_id);
                         flag = true;
@@ -255,12 +269,11 @@ public class Manager extends Bank {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            if(flag) {
+            if (flag) {
                 System.out.println("============================================================================");
                 System.out.println("Status: " + transactionId + " has been deleted.");
                 System.out.println("============================================================================");
-            }
-            else {
+            } else {
                 System.out.println("============================================================================");
                 System.out.println("Status: " + transactionId + " not found.");
                 System.out.println("============================================================================");
@@ -272,11 +285,7 @@ public class Manager extends Bank {
         }
     }
 
-    //Deletion not working
-//    private void deleteFromFile(File fileToBeModified, String[] eachLine, StringBuilder newContent, Scanner input) {
-//
-//    }
-
+    //Delete Account
     private void deleteRow(String accountData) {
         File fileToBeModified = new File(accountData);
         try {
@@ -304,12 +313,11 @@ public class Manager extends Bank {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            if(flag) {
+            if (flag) {
                 System.out.println("============================================================================");
                 System.out.println("Status: C_ID(" + c_id + ") has been deleted.");
                 System.out.println("============================================================================");
-            }
-            else {
+            } else {
                 System.out.println("============================================================================");
                 System.out.println("Status: C_ID(" + c_id + ") not found.");
                 System.out.println("============================================================================");
@@ -348,7 +356,6 @@ public class Manager extends Bank {
         return attributes;
     }
 
-
     protected String[] readFile(String fileName) throws FileNotFoundException {
         Scanner input = new Scanner(new File(fileName));
         StringBuilder list = new StringBuilder();
@@ -369,29 +376,3 @@ public class Manager extends Bank {
         System.out.print(table.generateTable(attributes, tableName, rowsList));
     }
 }
-
-
-//    protected void updateTransactionDetails() {
-//        File fileToBeModified = new File(transactionData);
-//        try {
-//            String[] eachLine = readFile(transactionData);
-//            StringBuilder newContent = new StringBuilder();
-//            Scanner input = new Scanner(System.in);
-//            System.out.print("Provide Transaction ID: ");
-//            String c_id = input.nextLine();
-//            System.out.println("1. Name");
-//            System.out.println("2. Account");
-//            System.out.println("3. Transaction ID");
-//            System.out.println("4. Transaction Type");
-//            System.out.println("5. Amount");
-//            System.out.println("6. Balance");
-//            System.out.println("7. Status");
-//            System.out.print("Update: ");
-//            int change = input.nextInt();
-//            modifyDetails(fileToBeModified, eachLine, newContent, c_id, change);
-//        } catch (IOException e) {
-//            System.out.println("============================================================================");
-//            System.out.println("Status: Could not be processed due to an error.");
-//            System.out.println("============================================================================");
-//        }
-//    }
