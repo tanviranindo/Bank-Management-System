@@ -32,7 +32,7 @@ public class Bank {
             }
             data.close();
 
-            System.out.println("============================================================");
+            System.out.println("============================================================================");
             if (isAuthentication()) {
                 if (type.equals("USER")) {
                     System.out.println("HELLO " + this.name + "!");
@@ -40,7 +40,7 @@ public class Bank {
             } else {
                 System.out.println("Authentication Failed");
             }
-            System.out.println("============================================================");
+            System.out.println("============================================================================");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

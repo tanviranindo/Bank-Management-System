@@ -110,7 +110,7 @@ public class Customer extends Manager {
     }
 
     private void dataEntry() {
-        System.out.println("============================================================");
+        System.out.println("============================================================================");
         try {
             FileWriter file = new FileWriter(super.customerData, true);
             file.write(getCustomerID() + "," + getName() + "," + getEmail() + "," + getPassword() + "," + getStartBalance() + "," + getDOB() + "," + getContact() + "," + getAddress() + "\n");
@@ -119,6 +119,6 @@ public class Customer extends Manager {
         } catch (IOException ignored) {
             System.out.println("Status: Verification could not be processed due to an error.");
         }
-        System.out.println("============================================================");
+        System.out.println("============================================================================");
     }
 }

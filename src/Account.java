@@ -83,7 +83,7 @@ public class Account extends Manager {
         if ((getBalance() - amount) >= 0) {
             setBalance(getBalance() - amount);
             flag = true;
-            System.out.println("\u09F3 " + amount + "/- has been withdrawn. Current Balance is \u09F3 " + getBalance() + "/-");
+            System.out.println("BDT " + amount + "/- has been withdrawn. Current Balance is BDT " + getBalance() + "/-");
         } else System.out.println("Insufficient Balance!");
         makeTransaction("WITHDRAW", amount, flag);
         updateData();
@@ -95,7 +95,7 @@ public class Account extends Manager {
         if (amount >= 0) {
             setBalance(getBalance() + amount);
             flag = true;
-            System.out.println("\u09F3 " + amount + "/- has been deposited. Current Balance is \u09F3 " + getBalance() + "/-");
+            System.out.println("BDT " + amount + "/- has been deposited. Current Balance is BDT " + getBalance() + "/-");
         }
         makeTransaction("DEPOSIT", amount, flag);
         updateData();
@@ -121,7 +121,7 @@ public class Account extends Manager {
         attributes.add("C_ID");
         attributes.add("NAME");
         attributes.add("ACCOUNT NUMBER");
-        attributes.add("BALANCE (\u09F3)");
+        attributes.add("BALANCE (BDT)");
 
         List<String> values = new ArrayList<>();
         values.add(getCustomerID());
@@ -188,17 +188,16 @@ public class Account extends Manager {
             } catch (NumberFormatException e) {
                 //Empty File
             }
-            System.out.println("============================================================");
+            System.out.println("============================================================================");
             if (flag) dataEntry();
             else System.out.println("Status: C_ID(" + getCustomerID() + ") has been already verified.");
-            System.out.println("============================================================");
+            System.out.println("============================================================================");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
 
     //Delete an account
-
     private void dataEntry() {
         try {
             FileWriter file = new FileWriter(super.accountData, true);
@@ -213,8 +212,8 @@ public class Account extends Manager {
 
     private void generateTrxID() {
         Random rand = new Random();
-        StringBuilder transactionID = new StringBuilder("TrxID");
-        for (int i = 0; i < 8; i++) {
+        StringBuilder transactionID = new StringBuilder("TRXID");
+        for (int i = 0; i < 6; i++) {
             int n = rand.nextInt(10);
             transactionID.append(n);
         }

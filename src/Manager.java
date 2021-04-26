@@ -27,6 +27,7 @@ public class Manager extends Bank {
             System.out.println("6. Update Customer Details");
             System.out.println("7. Delete Customer Details");
             System.out.println("8. Show All Transactions");
+            System.out.println("9. Delete Transactions Details");
             System.out.println("0. Sign Out");
             System.out.print("Select Operation: ");
             int option = input.nextInt();
@@ -51,19 +52,18 @@ public class Manager extends Bank {
                 deleteCustomer();
             } else if (option == 8) {
                 showAllTransaction();
-            }
-//            else if (option == 9) {
-//                showAllTransaction();//Delete Transaction
-//            }
-            else if (option == 0) {
+            } else if (option == 9) {
+                showAllTransaction();
+                deleteTransaction();
+            } else if (option == 0) {
                 super.setAuthentication(false);
-                System.out.println("============================================================");
+                System.out.println("============================================================================");
                 System.out.println("Logged Out");
-                System.out.println("============================================================");
+                System.out.println("============================================================================");
             } else {
-                System.out.println("============================================================");
+                System.out.println("============================================================================");
                 System.out.println("Wrong Option Selected! Please try again.");
-                System.out.println("============================================================");
+                System.out.println("============================================================================");
             }
         }
     }
@@ -107,7 +107,7 @@ public class Manager extends Bank {
         attributes.add("PASSWORD");
         attributes.add("NAME");
         attributes.add("ACCOUNT NUMBER");
-        attributes.add("BALANCE (\u09F3)");
+        attributes.add("BALANCE (BDT)");
 
         //Setting values
         try {
@@ -131,17 +131,25 @@ public class Manager extends Bank {
             System.out.println("2. Name");
             System.out.println("3. Account");
             System.out.println("4. Balance");
-            System.out.println("5. Back");
+            System.out.println("0. Back");
             System.out.print("Update: ");
             int change = input.nextInt();
 
-            if (change == 5) return;
+            boolean flag = false;
+            if (change == 0) return;
+            else if (change == 1 || change == 2 || change == 3 || change == 4) flag = true;
 
-            modifyDetails(fileToBeModified, eachLine, newContent, c_id, change);
+
+            if(flag) modifyDetails(fileToBeModified, eachLine, newContent, c_id, change);
+            else {
+                System.out.println("============================================================================");
+                System.out.println("Wrong Option Selected! Please try again.");
+                System.out.println("============================================================================");
+            }
         } catch (IOException e) {
-            System.out.println("============================================================");
+            System.out.println("============================================================================");
             System.out.println("Status: Could not be processed due to an error.");
-            System.out.println("============================================================");
+            System.out.println("============================================================================");
         }
     }
 
@@ -160,20 +168,22 @@ public class Manager extends Bank {
             System.out.println("5. DOB");
             System.out.println("6. Contact");
             System.out.println("7. Address");
+            System.out.println("0. Back");
             System.out.print("Update: ");
             int change = input.nextInt();
+            if (change == 0) return;
             modifyDetails(fileToBeModified, eachLine, newContent, c_id, change);
         } catch (IOException e) {
-            System.out.println("============================================================");
+            System.out.println("============================================================================");
             System.out.println("Status: Could not be processed due to an error.");
-            System.out.println("============================================================");
+            System.out.println("============================================================================");
         }
     }
 
+
     private void modifyDetails(File fileToBeModified, String[] eachLine, StringBuilder newContent, String c_id, int change) {
-        Scanner input;
         System.out.print("Set Value: ");
-        input = new Scanner(System.in);
+        Scanner input = new Scanner(System.in);
         String value = input.nextLine();
 
         for (String i : eachLine) {
@@ -197,9 +207,9 @@ public class Manager extends Bank {
             e.printStackTrace();
         }
 
-        System.out.println("============================================================");
+        System.out.println("============================================================================");
         System.out.println("Status: C_ID(" + c_id + ") has been updated.");
-        System.out.println("============================================================");
+        System.out.println("============================================================================");
     }
 
     protected void deleteAccount() {
@@ -210,6 +220,39 @@ public class Manager extends Bank {
         deleteRow(customerData);
     }
 
+    protected void deleteTransaction() {
+        File fileToBeModified = new File(transactionData);
+        try {
+            String[] eachLine = readFile(transactionData);
+            StringBuilder newContent = new StringBuilder();
+
+            Scanner input = new Scanner(System.in);
+            System.out.print("Provide Transaction ID: ");
+            deleteFromFile(fileToBeModified, eachLine, newContent, input);
+        } catch (IOException e) {
+            System.out.println("============================================================================");
+            System.out.println("Status: Could not be processed due to an error.");
+            System.out.println("============================================================================");
+        }
+    }
+
+    private void deleteFromFile(File fileToBeModified, String[] eachLine, StringBuilder newContent, Scanner input) throws IOException {
+        String c_id = input.nextLine().toUpperCase();
+
+        for (String i : eachLine) {
+            String[] eachValue = i.split(",");
+            if (!eachValue[0].equals(c_id)) newContent.append(i).append("\r\n");
+        }
+
+        OutputStream outputStream = new FileOutputStream(fileToBeModified);
+        Writer file = new OutputStreamWriter(outputStream);
+        file.write(newContent.toString());
+        file.close();
+        System.out.println("============================================================================");
+        System.out.println("Status: C_ID(" + c_id + ") has been deleted.");
+        System.out.println("============================================================================");
+    }
+
     private void deleteRow(String accountData) {
         File fileToBeModified = new File(accountData);
         try {
@@ -218,31 +261,17 @@ public class Manager extends Bank {
 
             Scanner input = new Scanner(System.in);
             System.out.print("Provide Customer ID: ");
-            String c_id = input.nextLine();
-
-            for (String i : eachLine) {
-                String[] eachValue = i.split(",");
-                if (!eachValue[0].equals(c_id)) newContent.append(i).append("\r\n");
-            }
-
-            OutputStream outputStream = new FileOutputStream(fileToBeModified);
-            Writer file = new OutputStreamWriter(outputStream);
-            file.write(newContent.toString());
-            file.close();
-            System.out.println("============================================================");
-            System.out.println("Status: C_ID(" + c_id + ") has been deleted.");
-            System.out.println("============================================================");
+            deleteFromFile(fileToBeModified, eachLine, newContent, input);
         } catch (IOException e) {
-            System.out.println("============================================================");
+            System.out.println("============================================================================");
             System.out.println("Status: Could not be processed due to an error.");
-            System.out.println("============================================================");
+            System.out.println("============================================================================");
         }
     }
 
     protected void showAllTransaction() {
         //Setting attributes
-        transactionAttributes();
-        List<String> attributes = null;
+        List<String> attributes = transactionAttributes();
 
         //Setting values
         try {
@@ -261,9 +290,9 @@ public class Manager extends Bank {
         attributes.add("ACCOUNT NUMBER");
         attributes.add("TRX_ID");
         attributes.add("TRANSACTION TYPE");
-        attributes.add("AMOUNT (\u09F3)");
-        attributes.add("BALANCE (\u09F3)");
-        attributes.add("STATUS (\u09F3)");
+        attributes.add("AMOUNT (BDT)");
+        attributes.add("BALANCE (BDT)");
+        attributes.add("STATUS");
         return attributes;
     }
 
@@ -288,3 +317,29 @@ public class Manager extends Bank {
         System.out.print(table.generateTable(attributes, tableName, rowsList));
     }
 }
+
+
+//    protected void updateTransactionDetails() {
+//        File fileToBeModified = new File(transactionData);
+//        try {
+//            String[] eachLine = readFile(transactionData);
+//            StringBuilder newContent = new StringBuilder();
+//            Scanner input = new Scanner(System.in);
+//            System.out.print("Provide Transaction ID: ");
+//            String c_id = input.nextLine();
+//            System.out.println("1. Name");
+//            System.out.println("2. Account");
+//            System.out.println("3. Transaction ID");
+//            System.out.println("4. Transaction Type");
+//            System.out.println("5. Amount");
+//            System.out.println("6. Balance");
+//            System.out.println("7. Status");
+//            System.out.print("Update: ");
+//            int change = input.nextInt();
+//            modifyDetails(fileToBeModified, eachLine, newContent, c_id, change);
+//        } catch (IOException e) {
+//            System.out.println("============================================================================");
+//            System.out.println("Status: Could not be processed due to an error.");
+//            System.out.println("============================================================================");
+//        }
+//    }
