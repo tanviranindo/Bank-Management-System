@@ -300,7 +300,7 @@ public class Manager extends Bank {
             for (String i : eachLine) {
                 String[] eachValue = i.split(",");
                 if (!eachValue[0].equals(c_id)) {
-                    System.out.println(i + "\r\n");
+//                    System.out.println(i + "\r\n");
                     newContent.append(i).append("\r\n");
                 } else flag = true;
             }
